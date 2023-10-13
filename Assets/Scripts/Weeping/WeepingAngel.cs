@@ -71,7 +71,7 @@ public class WeepingAngel : MonoBehaviour
                 if(distance <= catchDistance)
                 {
                 player.gameObject.SetActive(false); //The player object will be set false
-                aiAnim.Play("jumpscareee");
+                aiAnim.SetTrigger("Jumpscare");
                 StartCoroutine(killPlayer()); //The killPlayer() coroutine will start
                 }
             }

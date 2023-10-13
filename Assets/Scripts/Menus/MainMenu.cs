@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] GameObject mainMenu;
+    [SerializeField] GameObject mainMenu, crosshairMenu;
     public bool gameStarted = false;
     [SerializeField] float timer1 = 1, timer2 = 2, timer3 = 3;
     [SerializeField] Light light1, light2, light3;
@@ -19,6 +19,7 @@ public class MainMenu : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.E))
         {
             mainMenu.SetActive(false);
+            crosshairMenu.SetActive(true);
             gameStarted = true;
         }
 

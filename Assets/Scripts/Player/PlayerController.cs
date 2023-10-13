@@ -54,10 +54,6 @@ public class PlayerController : MonoBehaviour
         // Ensure We Are Using The Character Controller Component:
         characterController = GetComponent<CharacterController>();
 
-        // Lock And Hide Cursor:
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
         // Initialize current footstep sounds to wood sounds by default
         currentFootstepSounds = woodFootstepSounds;
     }
@@ -66,6 +62,10 @@ public class PlayerController : MonoBehaviour
     {
         if(mainMenu.gameStarted == true)
         {
+            // Lock And Hide Cursor:
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
             // Walking/Running In Action:
             Vector3 forward = transform.TransformDirection(Vector3.forward);
             Vector3 right = transform.TransformDirection(Vector3.right);

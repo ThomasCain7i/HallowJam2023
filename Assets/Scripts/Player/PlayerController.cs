@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
 
     CharacterController characterController;
 
+    [SerializeField] MainMenu mainMenu;
+
     void Start()
     {
         // Ensure We Are Using The Character Controller Component:
@@ -62,78 +64,81 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // Walking/Running In Action:
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 right = transform.TransformDirection(Vector3.right);
-
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
-
-        float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
-        float movementDirectionY = moveDirection.y;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
-
-        // Jumping In Action:
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
+        if(mainMenu.gameStarted == true)
         {
-            moveDirection.y = jumpPower;
-        }
-        else
-        {
-            moveDirection.y = movementDirectionY;
-        }
+            // Walking/Running In Action:
+            Vector3 forward = transform.TransformDirection(Vector3.forward);
+            Vector3 right = transform.TransformDirection(Vector3.right);
 
-        if (!characterController.isGrounded)
-        {
-            moveDirection.y -= gravity * Time.deltaTime;
-        }
+            bool isRunning = Input.GetKey(KeyCode.LeftShift);
 
-        characterController.Move(moveDirection * Time.deltaTime);
+            float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
+            float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
+            float movementDirectionY = moveDirection.y;
+            moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
-        // Camera Movement In Action:
-        if (canMove)
-        {
-            rotationX -= Input.GetAxis("Mouse Y") * lookSpeed;
-            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+            // Jumping In Action:
+            if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
+            {
+                moveDirection.y = jumpPower;
+            }
+            else
+            {
+                moveDirection.y = movementDirectionY;
+            }
 
-            rotationY += Input.GetAxis("Mouse X") * lookSpeed;
+            if (!characterController.isGrounded)
+            {
+                moveDirection.y -= gravity * Time.deltaTime;
+            }
 
-            Quaternion targetRotationX = Quaternion.Euler(rotationX, 0, 0);
-            Quaternion targetRotationY = Quaternion.Euler(0, rotationY, 0);
+            characterController.Move(moveDirection * Time.deltaTime);
 
-            playerCam.transform.localRotation = Quaternion.Slerp(playerCam.transform.localRotation, targetRotationX, Time.deltaTime * cameraRotationSmooth);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotationY, Time.deltaTime * cameraRotationSmooth);
-        }
+            // Camera Movement In Action:
+            if (canMove)
+            {
+                rotationX -= Input.GetAxis("Mouse Y") * lookSpeed;
+                rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
 
-        // Zooming In Action:
-        if (Input.GetButtonDown("Fire2"))
-        {
-            isZoomed = true;
-        }
+                rotationY += Input.GetAxis("Mouse X") * lookSpeed;
 
-        if (Input.GetButtonUp("Fire2"))
-        {
-            isZoomed = false;
-        }
+                Quaternion targetRotationX = Quaternion.Euler(rotationX, 0, 0);
+                Quaternion targetRotationY = Quaternion.Euler(0, rotationY, 0);
 
-        if (isZoomed)
-        {
-            playerCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(playerCam.fieldOfView, ZoomFOV, Time.deltaTime * cameraZoomSmooth);
-        }
-        else
-        {
-            playerCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(playerCam.fieldOfView, initialFOV, Time.deltaTime * cameraZoomSmooth);
-        }
+                playerCam.transform.localRotation = Quaternion.Slerp(playerCam.transform.localRotation, targetRotationX, Time.deltaTime * cameraRotationSmooth);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotationY, Time.deltaTime * cameraRotationSmooth);
+            }
 
-        // Play footstep sounds when walking
-        if ((curSpeedX != 0f || curSpeedY != 0f) && !isWalking && !isFootstepCoroutineRunning)
-        {
-            isWalking = true;
-            StartCoroutine(PlayFootstepSounds(1.3f / (isRunning ? runSpeed : walkSpeed)));
-        }
-        else if (curSpeedX == 0f && curSpeedY == 0f)
-        {
-            isWalking = false;
+            // Zooming In Action:
+            if (Input.GetButtonDown("Fire2"))
+            {
+                isZoomed = true;
+            }
+
+            if (Input.GetButtonUp("Fire2"))
+            {
+                isZoomed = false;
+            }
+
+            if (isZoomed)
+            {
+                playerCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(playerCam.fieldOfView, ZoomFOV, Time.deltaTime * cameraZoomSmooth);
+            }
+            else
+            {
+                playerCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(playerCam.fieldOfView, initialFOV, Time.deltaTime * cameraZoomSmooth);
+            }
+
+            // Play footstep sounds when walking
+            if ((curSpeedX != 0f || curSpeedY != 0f) && !isWalking && !isFootstepCoroutineRunning)
+            {
+                isWalking = true;
+                StartCoroutine(PlayFootstepSounds(1.3f / (isRunning ? runSpeed : walkSpeed)));
+            }
+            else if (curSpeedX == 0f && curSpeedY == 0f)
+            {
+                isWalking = false;
+            }
         }
     }
 

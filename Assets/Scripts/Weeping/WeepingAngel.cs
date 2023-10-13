@@ -33,49 +33,54 @@ public class WeepingAngel : MonoBehaviour
     //The scene you load into after dying
     public string sceneAfterDeath;
 
+    [SerializeField] private MainMenu mainMenu;
+
     //The Update() void, stuff occurs every frame in this void
     void Update()
     {
-        //Calculate the player's Camera's frustum planes
-        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(playerCam);
-
-        //Get the AI's distance from the player
-        float distance = Vector3.Distance(transform.position, player.position);
-
-        //If the AI is in the player's Camera's view,
-        if(GeometryUtility.TestPlanesAABB(planes, this.gameObject.GetComponent<Renderer>().bounds))
+        if (mainMenu.gameStarted == true)
         {
-            ai.speed = 0; //The AI's speed will equal to 0
+            //Calculate the player's Camera's frustum planes
+            Plane[] planes = GeometryUtility.CalculateFrustumPlanes(playerCam);
 
-            //If the player object is active,
-            if(player.gameObject.active == true)
+            //Get the AI's distance from the player
+            float distance = Vector3.Distance(transform.position, player.position);
+
+            //If the AI is in the player's Camera's view,
+            if(GeometryUtility.TestPlanesAABB(planes, this.gameObject.GetComponent<Renderer>().bounds))
             {
-                aiAnim.speed = 0; //The AI'S animation speed will be set to 0
+                ai.speed = 0; //The AI's speed will equal to 0
+
+                //If the player object is active,
+                if(player.gameObject.active == true)
+                {
+                    aiAnim.speed = 0; //The AI'S animation speed will be set to 0
+                }
+                ai.SetDestination(transform.position); //The AI's destination will be set to themselves to stop a delay in the movement stopping
             }
-            ai.SetDestination(transform.position); //The AI's destination will be set to themselves to stop a delay in the movement stopping
-        }
 
-        //If the AI isn't in the player's Camera's view,
-        if (!GeometryUtility.TestPlanesAABB(planes, this.gameObject.GetComponent<Renderer>().bounds))
-        {
-            ai.speed = aiSpeed; //The AI's speed will equal to the value of aiSpeed
-            aiAnim.speed = 1; //The AI's animation speed will be set to 1
-            dest = player.position; //dest will equal to the player's position
-            ai.destination = dest; //The AI's destination will equal to dest
-
-            //If the distance between the player and the AI is less than or equal to the catchDistance,
-            if(distance <= catchDistance)
+            //If the AI isn't in the player's Camera's view,
+            if (!GeometryUtility.TestPlanesAABB(planes, this.gameObject.GetComponent<Renderer>().bounds))
             {
+                ai.speed = aiSpeed; //The AI's speed will equal to the value of aiSpeed
+                aiAnim.speed = 1; //The AI's animation speed will be set to 1
+                dest = player.position; //dest will equal to the player's position
+                ai.destination = dest; //The AI's destination will equal to dest
+
+                //If the distance between the player and the AI is less than or equal to the catchDistance,
+                if(distance <= catchDistance)
+                {
                 player.gameObject.SetActive(false); //The player object will be set false
                 aiAnim.Play("jumpscareee");
                 StartCoroutine(killPlayer()); //The killPlayer() coroutine will start
+                }
             }
         }
-    }
-    //The killPlayer() coroutine
-    IEnumerator killPlayer()
-    {
-        yield return new WaitForSeconds(jumpscareTime); //After the amount of seconds determined by the jumpscareTime,
-        SceneManager.LoadScene(sceneAfterDeath); //The scene after death will load
+        //The killPlayer() coroutine
+        IEnumerator killPlayer()
+        {
+            yield return new WaitForSeconds(jumpscareTime); //After the amount of seconds determined by the jumpscareTime,
+            SceneManager.LoadScene(sceneAfterDeath); //The scene after death will load
+        }
     }
 }

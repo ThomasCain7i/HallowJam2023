@@ -4,14 +4,17 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] GameObject mainMenu, crosshairMenu;
     public bool gameStarted = false;
-    [SerializeField] float timer1 = 1, timer2 = 2, timer3 = 3;
-    [SerializeField] Light light1, light2, light3;
+    [SerializeField] float timer1, timer2, timer3, timer4, timer5, timer6;
+    [SerializeField] Light light1, light2, light3, light4, light5, light6;
 
     private void Start()
     {
         light1.enabled = false;
         light2.enabled = false;
         light3.enabled = false;
+        light4.enabled = false;
+        light5.enabled = false;
+        light6.enabled = false;
     }
 
     public void Update()
@@ -28,6 +31,9 @@ public class MainMenu : MonoBehaviour
             timer1 -= Time.deltaTime;
             timer2 -= Time.deltaTime;
             timer3 -= Time.deltaTime;
+            timer4 -= Time.deltaTime;
+            timer5 -= Time.deltaTime;
+            timer6 -= Time.deltaTime;
         }
 
         if (timer1 <= 0)
@@ -43,6 +49,21 @@ public class MainMenu : MonoBehaviour
         if (timer3 <= 0)
         {
             light3.enabled = true;
+        }
+
+        if (timer4 <= 0)
+        {
+            light4.enabled = true;
+        }
+
+        if (timer5 <= 0)
+        {
+            light5.enabled = true;
+        }
+
+        if (timer6 <= 0)
+        {
+            light6.enabled = true;
         }
     }
 

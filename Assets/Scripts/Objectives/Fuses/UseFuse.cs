@@ -7,10 +7,9 @@ public class UseFuse : MonoBehaviour
     private GameObject gameObj;
     public GameObject handUI;
 
-    [SerializeField] bool fuse1, fuse2, fuse3;
+    [SerializeField] bool fuse1, fuse2, fuse3, fuse4;
 
     [SerializeField] Inventory inventory;
-
 
     private bool inReach;
 
@@ -59,6 +58,11 @@ public class UseFuse : MonoBehaviour
             if (fuse3)
             {
                 inventory.fuse3 = true;
+            }
+
+            if (fuse3)
+            {
+                inventory.fuse4 = true;
             }
 
             Destroy(gameObject);

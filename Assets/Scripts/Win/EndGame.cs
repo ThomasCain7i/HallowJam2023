@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class EndGame : MonoBehaviour
 {
-    [SerializeField] GameObject enemy, fadeToBlackWin;
+    [SerializeField] GameObject enemy, fadeToBlackWin, winMessage;
+    [SerializeField] MainMenu mainMenu;
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
-            enemy.SetActive(false);
             fadeToBlackWin.SetActive(true);
+            enemy.SetActive(false);
+            winMessage.SetActive(true);
+            mainMenu.gameStarted = false;
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
         }
     }
 }

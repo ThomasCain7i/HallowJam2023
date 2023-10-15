@@ -43,6 +43,8 @@ public class WeepingAngel : MonoBehaviour
 
     [SerializeField] GameObject crosshairs, fadeToBlack;
 
+    [SerializeField] AudioSource audioSourceBell, audioSourceScream;
+
     // The Update() void, stuff occurs every frame in this void
     void Update()
     {
@@ -111,9 +113,10 @@ public class WeepingAngel : MonoBehaviour
                 aiAnim.speed = 1; //The AI's animation speed will be set to 1
                 dest = player.position; //dest will equal to the player's position
                 ai.destination = dest; //The AI's destination will equal to dest
+                audioSourceBell.Play();
 
                 //If the distance between the player and the AI is less than or equal to the catchDistance,
-                if(distance <= catchDistance)
+                if (distance <= catchDistance)
                 {
                 crosshairs.SetActive(false);
                 player.gameObject.SetActive(false); //The player object will be set false
@@ -129,5 +132,10 @@ public class WeepingAngel : MonoBehaviour
             yield return new WaitForSeconds(jumpscareTime); //After the amount of seconds determined by the jumpscareTime,
             SceneManager.LoadScene(sceneAfterDeath); //The scene after death will load
         }
+    }
+
+    public void Scream()
+    {
+        audioSourceScream.Play();
     }
 }

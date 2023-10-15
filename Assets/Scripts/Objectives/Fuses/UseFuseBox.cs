@@ -5,16 +5,18 @@ using UnityEngine;
 public class UseFuseBox : MonoBehaviour
 {
     private GameObject gameObj;
-    [SerializeField] GameObject fuseOb1, fuseOb2, fuseOb3;
+    [SerializeField] GameObject fuseOb1, fuseOb2, fuseOb3, fuseOb4;
     public GameObject handUI;
 
-    [SerializeField] bool fuse1, fuse2, fuse3, doorOpen, fusesFull;
+    [SerializeField] bool fuse1, fuse2, fuse3, fuse4, doorOpen, fusesFull;
 
     [SerializeField] Inventory inventory;
 
     [SerializeField] Light lightBulb;
 
     [SerializeField] Animator animator, doorAnimator;
+
+    [SerializeField] AudioSource audioSource;
 
     private bool inReach;
 
@@ -57,6 +59,7 @@ public class UseFuseBox : MonoBehaviour
                     fuseOb1.SetActive(true);
                     fuse1 = true;
                     handUI.SetActive(false);
+                    audioSource.Play();
                 }
     
                 if (inventory.fuse2 == true)
@@ -64,6 +67,7 @@ public class UseFuseBox : MonoBehaviour
                     fuseOb2.SetActive(true);
                     fuse2 = true;
                     handUI.SetActive(false);
+                    audioSource.Play();
                 }
 
                 if (inventory.fuse3 == true)
@@ -71,6 +75,15 @@ public class UseFuseBox : MonoBehaviour
                     fuseOb3.SetActive(true);
                     fuse3 = true;
                     handUI.SetActive(false);
+                    audioSource.Play();
+                }
+
+                if (inventory.fuse4 == true)
+                {
+                    fuseOb4.SetActive(true);
+                    fuse4 = true;
+                    handUI.SetActive(false);
+                    audioSource.Play();
                 }
             }
 
@@ -81,7 +94,7 @@ public class UseFuseBox : MonoBehaviour
             }
         }
 
-        if (fuse1 == true && fuse2 == true && fuse3 == true)
+        if (fuse1 == true && fuse2 == true && fuse3 == true && fuse4 == true)
         {
             lightBulb.color = Color.green;
             fusesFull = true;

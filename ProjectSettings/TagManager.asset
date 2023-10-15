@@ -6,11 +6,14 @@ TagManager:
   tags:
   - Reach
   - Wall
+  - Tile
+  - Wood
+  - Carpet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Tile
   - Water
   - UI
   - 

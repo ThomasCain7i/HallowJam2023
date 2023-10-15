@@ -39,11 +39,11 @@ public class WeepingAngel : MonoBehaviour
     public Transform target;    // The GameObject at which the ray is aimed
     public float maxDistance = 100f; // Maximum distance for the raycast
 
-    [SerializeField] bool canSee;
+    [SerializeField] bool canSee, canPlay = true;
 
     [SerializeField] GameObject crosshairs, fadeToBlack;
 
-    [SerializeField] AudioSource audioSourceBell, audioSourceScream;
+    [SerializeField] AudioSource audioSource;
 
     // The Update() void, stuff occurs every frame in this void
     void Update()
@@ -113,19 +113,24 @@ public class WeepingAngel : MonoBehaviour
                 aiAnim.speed = 1; //The AI's animation speed will be set to 1
                 dest = player.position; //dest will equal to the player's position
                 ai.destination = dest; //The AI's destination will equal to dest
-                audioSourceBell.Play();
 
                 //If the distance between the player and the AI is less than or equal to the catchDistance,
                 if (distance <= catchDistance)
                 {
-                crosshairs.SetActive(false);
-                player.gameObject.SetActive(false); //The player object will be set false
-                aiAnim.SetTrigger("Jumpscare");
-                StartCoroutine(killPlayer()); //The killPlayer() coroutine will start
-                fadeToBlack.SetActive(true);
+                    crosshairs.SetActive(false);
+                    player.gameObject.SetActive(false); //The player object will be set false
+                    aiAnim.SetTrigger("Jumpscare");
+                    if (canPlay == true)
+                    {
+                        Scream();
+                    }
+
+                    fadeToBlack.SetActive(true);
+                    StartCoroutine(killPlayer()); //The killPlayer() coroutine will start
                 }
             }
         }
+
         //The killPlayer() coroutine
         IEnumerator killPlayer()
         {
@@ -134,8 +139,10 @@ public class WeepingAngel : MonoBehaviour
         }
     }
 
-    public void Scream()
+    private void Scream()
     {
-        audioSourceScream.Play();
+        audioSource.Play();
+        canPlay = false;
+        Debug.Log("Played Scream");
     }
 }

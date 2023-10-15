@@ -14,7 +14,7 @@ public class UseFuseBox : MonoBehaviour
 
     [SerializeField] Light lightBulb;
 
-    [SerializeField] Animator animator;
+    [SerializeField] Animator animator, doorAnimator;
 
     private bool inReach;
 
@@ -85,6 +85,7 @@ public class UseFuseBox : MonoBehaviour
         {
             lightBulb.color = Color.green;
             fusesFull = true;
+            doorAnimator.SetTrigger("OpenDoor");
         }
     }
 }

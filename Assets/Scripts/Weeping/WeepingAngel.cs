@@ -41,6 +41,8 @@ public class WeepingAngel : MonoBehaviour
 
     [SerializeField] bool canSee;
 
+    [SerializeField] GameObject crosshairs, fadeToBlack;
+
     // The Update() void, stuff occurs every frame in this void
     void Update()
     {
@@ -113,9 +115,11 @@ public class WeepingAngel : MonoBehaviour
                 //If the distance between the player and the AI is less than or equal to the catchDistance,
                 if(distance <= catchDistance)
                 {
+                crosshairs.SetActive(false);
                 player.gameObject.SetActive(false); //The player object will be set false
                 aiAnim.SetTrigger("Jumpscare");
                 StartCoroutine(killPlayer()); //The killPlayer() coroutine will start
+                fadeToBlack.SetActive(true);
                 }
             }
         }

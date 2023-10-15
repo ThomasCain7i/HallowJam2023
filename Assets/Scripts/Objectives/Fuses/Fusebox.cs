@@ -6,6 +6,7 @@ public class Fusebox : MonoBehaviour
 {
     [SerializeField] Light light1, light2, light3;
     public bool fuse1, fuse2, fuse3;
+    [SerializeField] Animator doorAnimator;
 
     private void Start()
     {
@@ -30,6 +31,11 @@ public class Fusebox : MonoBehaviour
         if (fuse3)
         {
             light3.color = Color.green;
+        }
+
+        if (fuse1 && fuse2 && fuse3)
+        {
+            doorAnimator.SetTrigger("OpenDoor");
         }
     }
 }
